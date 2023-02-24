@@ -6,8 +6,7 @@ import { format } from "timeago.js";
 import { Link } from "react-router-dom";
 const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 export default function Post({ post }) {
-  
-  const [like, setLike] = useState(post.like.length);
+  const [like, setLike] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(false);
   let [User, setUser] = useState({});
   const likeHandler = () => {
@@ -17,8 +16,8 @@ export default function Post({ post }) {
   useEffect(() => {
     const fetchUser = async () => {
       let user = await Axios.get(`/users/${post.userId}`);
-      setUser(user);
-      console.log("user", user);
+      setUser(user.data);
+      console.log("user", user.data);
     };
     fetchUser();
   }, [post.userId]);
