@@ -81,7 +81,7 @@ router.get("/timeline/:id", async (req, res) => {
         return Post.find({ userId: friendId });
       })
     );
-    res.json(userPosts.concat(...friendPosts))
+    res.status(200).json(userPosts.concat(...friendPosts));
   } catch (err) {
     res.status(500).json(err);
   }
@@ -93,11 +93,10 @@ router.get("/profile/:username", async (req, res) => {
     console.log("req made for user's posts");
     const currentUser = await User.findOne({ username: req.params.username });
     const userPosts = await Post.find({ userId: currentUser._id });
-    res.json(userPosts)
+    return res.status(200).json(userPosts);
   } catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 });
-
 
 module.exports = router;

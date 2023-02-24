@@ -1,12 +1,11 @@
 .topbarContainer {
-    height: 50px;
-    width: 100%;
-    background-color: rgb(147, 215, 193);
-    position: sticky;
-    top: 0px;
-    z-index: 999;
+  height: 50px;
+  width: 100%;
+  background-color: rgb(147, 215, 193);
+  position: sticky;
+  top: 0px;
+  z-index: 999;
 }
-
 
 .topbarRight,
 .topbarCentre,
@@ -14,99 +13,99 @@
 .topbarLinks,
 .topbarIcons,
 .searchbar {
-    display: flex !important;
+  display: flex !important;
 }
 
 .topbarLeft {
-    flex: 3;
-    cursor: pointer;
-    font-size: large;
-    margin-left: 1%;
-    color: white;
-    font-weight: 800;
+  flex: 3;
+  cursor: pointer;
+  font-size: large;
+  margin-left: 1%;
+  color: white;
+  font-weight: 800;
 }
 
 .topbarCentre {
-    margin-right: 1%;
-    flex: 5;
-    background-color: white;
-    color: black;
-    border: 0.1px cornflowerblue solid;
-    border-radius: 20px;
+  margin-right: 1%;
+  flex: 5;
+  background-color: white;
+  color: black;
+  border: 0.1px cornflowerblue solid;
+  border-radius: 20px;
 }
 
 .searchbar {
-    width: 100%;
+  width: 100%;
 }
 
 .searchbar input {
-    width: 80%;
-    height: 30px;
-    border: none;
+  width: 80%;
+  height: 30px;
+  border: none;
 }
 
 .searchbar,
 .topbarContainer,
 .topbarCentre {
-    align-items: center;
+  align-items: center;
 }
 
 .searchIcon {
-    font-size: 20px !important;
-    margin-left: 3%;
+  font-size: 20px !important;
+  margin-left: 3%;
 }
 
 .searchbar input:focus {
-    outline: none;
+  outline: none;
 }
 
 .topbarRight {
-    flex: 4;
-    height: 100%;
-    width: 80%;
-    align-items: center;
-    justify-content: space-around;
+  flex: 4;
+  height: 100%;
+  width: 80%;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .topbarContainer {
-    justify-content: space-between;
+  justify-content: space-between;
 }
 
 .topbarProfilePicture {
-    border-radius: 50%;
-    width: 32px;
-    height: 32px;
-    object-fit: cover;
-    cursor: pointer;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+  cursor: pointer;
 }
 
 .topbarLinks,
 .topbarIcons {
-    cursor: pointer;
-    font-size: small;
-    color: white;
-    display: flex;
+  cursor: pointer;
+  font-size: small;
+  color: white;
+  display: flex;
 }
 
 .topbarIcon {
-    margin-left: 15px;
-    position: relative;
+  margin-left: 15px;
+  position: relative;
 }
 
 .topbarIconNotificationCount {
-    width: 15px;
-    height: 15px;
-    position: absolute;
-    background-color: red;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    top: -5px;
-    left: 12px;
-    font-size: smaller;
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  background-color: red;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: -5px;
+  left: 12px;
+  font-size: smaller;
 }
 
 .topbarLink {
-    margin-left: 10px;
+  margin-left: 10px;
 }
