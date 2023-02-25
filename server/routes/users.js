@@ -10,17 +10,20 @@ router.put("/:id", async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         req.body.password = await bcrypt.hash(req.body.password, salt);
       }
-      let user = await User.findByIdAndUpdate(req.params.id, { $set: req.body });
+      let user = await User.findByIdAndUpdate(req.params.id, {
+        $set: req.body,
+      });
       return res.status(200).json({
         message: "User account has been updated!",
-        user: user
+        user: user,
       });
-    }
-    catch (err) {
+    } catch (err) {
       return res.status(500).json(err);
     }
   } else {
-    return res.status(403).json("You are not authorized to perform this action!");
+    return res
+      .status(403)
+      .json("You are not authorized to perform this action!");
   }
 });
 
@@ -39,10 +42,14 @@ router.delete("/:id", async (req, res) => {
 });
 
 //get a user
-router.get("/:id", async (req, res) => {
+router.get("/", async (req, res) => {
+  const userId = req.query.userId;
+  const username = req.query.username;
   try {
     console.log("req made for a user!");
-    const user = await User.findById(req.params.id);
+    const user = userId
+      ? await User.findById(userId)
+      : await User.findOne({ username: username });
     const { password, updatedAt, __v, ...other } = user._doc;
     res.status(200).json(other);
   } catch (err) {

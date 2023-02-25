@@ -15,9 +15,8 @@ export default function Post({ post }) {
   };
   useEffect(() => {
     const fetchUser = async () => {
-      let user = await Axios.get(`/users/${post.userId}`);
+      let user = await Axios.get(`/users?userId=${post.userId}`);
       setUser(user.data);
-      console.log("user", user.data);
     };
     fetchUser();
   }, [post.userId]);
@@ -45,7 +44,7 @@ export default function Post({ post }) {
         </div>
         <div className="postCenter">
           <div className="postText">{post?.desc}</div>
-          <img className="postImg" src={PF + post.img} alt="" />
+          <img className="postImg" src="" alt="" />
         </div>
         <div className="postBottom">
           <div className="postBottomLeft">
