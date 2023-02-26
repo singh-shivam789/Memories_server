@@ -12,16 +12,23 @@ import Register from "./pages/register/Register";
 import ErrorPage from "./pages/error/ErrorPage";
 import { AuthContext } from "./context/AuthContext";
 function App() {
-  const { user, error } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   return (
     <Router>
       <Switch>
-        <Route path="/">
-          {user ? <Home /> : <Register/>}
+        <Route exact path="/">
+          {user ? <Home /> : <Register />}
         </Route>
-        <Route path="/login"></Route>
-        <Route path="/profile/:username"></Route>
-        <Route path="/register"></Route>
+        <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
+        <Route path="/profile/:username">
+          <Profile />
+        </Route>
+        <Route path="/register">
+          {!user ? <Register /> : <Redirect to="/" />}
+        </Route>
+        <Route path="*">
+          <ErrorPage />
+        </Route>
       </Switch>
     </Router>
   );
