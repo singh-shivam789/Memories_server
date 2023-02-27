@@ -2,7 +2,9 @@ import axios from "axios";
 import { useRef, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import "./register.css";
-import { Alert } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 export default function Register() {
   const username = useRef();
   const email = useRef();
@@ -10,32 +12,27 @@ export default function Register() {
   const confirmPassword = useRef();
   const form = useRef();
   const history = useHistory();
-  const [isValid, setIsValid] = useState(false);
-  const [isValidStyle, setIsValidStyle] = useState({});
+  // const [isValid, setIsValid] = useState(false);
+  // const [isValidStyle, setIsValidStyle] = useState({});
   const submitHandler = async function (event) {
     event.preventDefault();
-    if (confirmPassword.current.value !== password.current.value) {
-      confirmPassword.current.setCustomValidity("Passwords do not match!");
-      setIsValid(false);
-    } else {
-      try {
-        const user = {
+   const user = {
           username: username.current.value,
           email: email.current.value,
           password: password.current.value,
         };
 
-        await axios.post("/auth/register", user);
-        history.push("/login");
-      } catch (error) {
-        console.log(error);
+        let res = await toast.promise(axios.get(`/users?username=${user.username}`), {
+          pending: "trying to get your info...",
+          success: "Got it!",
+          error: "Something is not right ☹️",
+        });
+        console.log(res);
+        // history.push("/login");
       }
-    }
-    form.current.reset();
-  };
+
   return (
     <div className="login">
-      <Alert />
       <div className="loginWrapper">
         <div className="loginLeft">
           <h3 className="loginLogo">Memories</h3>
@@ -59,14 +56,14 @@ export default function Register() {
             />
             <input
               ref={password}
-              type={"password"}
+              type={"text"}
               placeholder="Password"
               className="loginInput"
               minLength={"6"}
             />
             <input
               ref={confirmPassword}
-              type={"password"}
+              type={"text"}
               placeholder="Confirm Password"
               className="loginInput"
               minLength={"6"}
@@ -78,6 +75,7 @@ export default function Register() {
               Log into Account
             </Link>
           </form>
+          <ToastContainer />
         </div>
       </div>
     </div>
