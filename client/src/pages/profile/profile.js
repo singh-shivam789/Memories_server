@@ -13,7 +13,8 @@ export default function Profile() {
   useEffect(() => {
     const fetch = async () => {
       const res = await axios.get(`/users?username=${params.username}`);
-      setUser(res.data);
+      setUser(res.data.user);
+      console.log(res);
     };
     fetch();
   }, [params]);
@@ -27,12 +28,20 @@ export default function Profile() {
             <div className="profileCover">
               <img
                 className="coverPic"
-                src={User.coverPicture || PF + "noCover.webp"}
+                src={
+                  User.coverPicture
+                    ? PF + User.coverPicture
+                    : PF + "/noCover.webp"
+                }
                 alt=""
               />
               <img
                 className="profilePic"
-                src={User.profilePicture || PF + "/person/0.jpeg"}
+                src={
+                  User.profilePicture
+                    ? PF + User.profilePicture
+                    : PF + "person/0.jpeg"
+                }
                 alt=""
               />
             </div>
@@ -42,8 +51,8 @@ export default function Profile() {
             </div>
           </div>
           <div className="profileRightBottom">
-            <Feed username={params.username}></Feed>
-            <Rightbar user={User}></Rightbar>
+            <Feed username={params.username} />
+            <Rightbar user={User} />
           </div>
         </div>
       </div>

@@ -1,37 +1,53 @@
 import "./post.css";
+import { AuthContext } from "../../context/AuthContext";
 import { MoreVert } from "@material-ui/icons";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Axios from "axios";
 import { format } from "timeago.js";
 import { Link } from "react-router-dom";
+import axios from "axios";
+
 const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+
 export default function Post({ post }) {
+  useEffect(() => {
+    const fetchUser = async () => {
+      let user = await Axios.get(`/users?userId=${post.userId}`);
+      setUser(user.data.user);
+    };
+    fetchUser();
+  }, [post.userId]);
+  
+  const { user } = useContext(AuthContext);
   const [like, setLike] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(false);
   let [User, setUser] = useState({});
-  const likeHandler = () => {
+  const likeHandler = async () => {
+    try {
+      await axios.put("/posts/" + post._id + "/like", { userId: user._id });
+    } catch (err) {}
     setLike(isLiked ? like - 1 : like + 1);
     setIsLiked(!isLiked);
   };
   useEffect(() => {
-    const fetchUser = async () => {
-      let user = await Axios.get(`/users?userId=${post.userId}`);
-      setUser(user.data);
-    };
-    fetchUser();
-  }, [post.userId]);
+    setIsLiked(post.likes.includes(user._id));
+  }, [post, user._id])
   return (
     <div className="post">
       <div className="postWrapper">
         <div className="postTop">
           <div className="postTopLeft">
             <Link
-              to={`profile/${User.username}`}
+              to={`/profile/${User.username}`}
               style={{ textDecoration: "none" }}
             >
               <img
                 className="postOwnerImg"
-                src={User.profilePicture || PF + "person/0.jpeg"}
+                src={
+                  User.profilePicture
+                    ? PF + User.profilePicture
+                    : PF + "/person/0.jpeg"
+                }
                 alt=""
               />
             </Link>
@@ -44,7 +60,11 @@ export default function Post({ post }) {
         </div>
         <div className="postCenter">
           <div className="postText">{post?.desc}</div>
-          <img className="postImg" src="" alt="" />
+          {post.img ? (
+            <img className="postImg" src={PF + post?.img} alt="" />
+          ) : (
+            ""
+          )}
         </div>
         <div className="postBottom">
           <div className="postBottomLeft">
