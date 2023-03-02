@@ -14,7 +14,6 @@ export default function Profile() {
     const fetch = async () => {
       const res = await axios.get(`/users?username=${params.username}`);
       setUser(res.data.user);
-      console.log(res);
     };
     fetch();
   }, [params]);

@@ -47,6 +47,7 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
       .status(200)
       .json({ status: "ok", message: "file uploaded successfully!" });
   } catch (error) {
+
     console.log("error coming in uploading file", err);
   }
 });

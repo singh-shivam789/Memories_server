@@ -9,9 +9,11 @@ import Button from "@material-ui/core/Button";
 
 const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 export default function Rightbar({ user }) {
-  const [friends, setFriends] = useState([]);
   let { user: currentUser } = useContext(AuthContext);
-
+  const [friends, setFriends] = useState([]);
+  const [followed, setFollowed] = useState(
+    currentUser.followings.includes(user?._id)
+  );
   useEffect(() => {
     const getFriends = async () => {
       try {
@@ -47,11 +49,10 @@ export default function Rightbar({ user }) {
   const ProfileRightbar = () => {
     const followUnfollowHandler = async () => {
       try {
-        
       } catch (error) {
         console.log(error);
       }
-    }
+    };
     return (
       <>
         {user.username !== currentUser.username && (
@@ -67,7 +68,7 @@ export default function Rightbar({ user }) {
             variant="contained"
             onClick={followUnfollowHandler}
           >
-            Follow
+            {followed ? "Unfollow" : "Follow"}
           </Button>
         )}
         <h4 className="rightbarTitle">About you</h4>
@@ -100,7 +101,7 @@ export default function Rightbar({ user }) {
                   style={{ textDecoration: "none" }}
                   to={`/profile/${friend.username}`}
                 >
-                  <div className="userFriend">
+                  <div key={friend._id} className="userFriend">
                     <img
                       className="userFriendImg"
                       src={
