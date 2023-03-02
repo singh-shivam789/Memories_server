@@ -66,7 +66,6 @@ router.get("/", async (req, res) => {
 });
 
 // fetch all friends
-
 router.get("/friends/:userId", async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
@@ -84,7 +83,7 @@ router.get("/friends/:userId", async (req, res) => {
       return res.status(200).json(friends);
     } else throw Error("User not found!");
   } catch (error) {
-    return res.status(500).json(err);
+    return res.status(500).json(error);
   }
 });
 

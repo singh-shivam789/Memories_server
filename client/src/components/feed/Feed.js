@@ -11,7 +11,7 @@ export default function Feed({ username }) {
     const fetch = async () => {
       let data = username
         ? await Axios.get("/posts/profile/" + username)
-        : await Axios.get(`/posts/timeline/${user._id}`);
+        : await Axios.get("/posts/all");
       setPosts(
         data.data.sort((a, b) => {
           return new Date(b.createdAt) - new Date(a.createdAt);
@@ -23,7 +23,7 @@ export default function Feed({ username }) {
   return (
     <div className="feed">
       <div className="feedWrapper">
-        {(!username || user.username === username) && <Share/>}
+        {(!username || user.username === username) && <Share />}
         {Posts.map((post) => {
           return <Post key={post._id} post={post}></Post>;
         })}

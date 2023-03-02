@@ -2,8 +2,18 @@ const router = require("express").Router();
 const Post = require("../models/Post");
 const User = require("../models/User");
 
-//create a post
+// get all posts
+router.get("/all", async (req, res) => {
+  try {
+    const filter = {};
+    const all = await Post.find(filter);
+    return res.status(200).json(all);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
 
+//create a post
 router.post("/", async (req, res) => {
   const newPost = new Post(req.body);
   try {

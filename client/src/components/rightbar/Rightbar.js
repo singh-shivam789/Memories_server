@@ -6,25 +6,29 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import Button from "@material-ui/core/Button";
+import { CircularProgress } from "@material-ui/core";
 
 const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 export default function Rightbar({ user }) {
-  let { user: currentUser } = useContext(AuthContext);
+  let { user: currentUser, dispatch } = useContext(AuthContext);
   const [friends, setFriends] = useState([]);
+  const [fetchFriends, setFetchFriends] = useState(false);
   const [followed, setFollowed] = useState(
     currentUser.followings.includes(user?._id)
   );
+
   useEffect(() => {
     const getFriends = async () => {
       try {
         const friendsList = await axios.get("/users/friends/" + user._id);
         setFriends(friendsList.data);
+        setFetchFriends(true);
       } catch (error) {
         console.log(error);
       }
     };
     getFriends();
-  }, [user]);
+  }, [user, currentUser]);
 
   const HomeRightbar = () => {
     return (
@@ -49,6 +53,18 @@ export default function Rightbar({ user }) {
   const ProfileRightbar = () => {
     const followUnfollowHandler = async () => {
       try {
+        if (!followed) {
+          await axios.put("/users/" + user._id + "/follow", {
+            userId: currentUser._id,
+          });
+          dispatch({ type: "FOLLOW", payload: user._id });
+        } else {
+          await axios.put("/users/" + user._id + "/unfollow", {
+            userId: currentUser._id,
+          });
+          dispatch({ type: "UNFOLLOW", payload: user._id });
+        }
+        setFollowed(!followed);
       } catch (error) {
         console.log(error);
       }
@@ -94,7 +110,9 @@ export default function Rightbar({ user }) {
         </div>
         <h4 className="rightbarTitle">Your Friends</h4>
         <div className="userFriends">
-          {friends.length ? (
+          {!fetchFriends && <CircularProgress size="15px" />}
+          {fetchFriends &&
+            friends.length > 0 &&
             friends.map((friend) => {
               return (
                 <Link
@@ -115,10 +133,8 @@ export default function Rightbar({ user }) {
                   </div>
                 </Link>
               );
-            })
-          ) : (
-            <p>No friends to show 😕</p>
-          )}
+            })}
+          {fetchFriends && !friends.length && <p>No friends to show 😕</p>}
         </div>
       </>
     );
