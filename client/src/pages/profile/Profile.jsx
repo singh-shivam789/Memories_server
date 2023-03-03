@@ -11,6 +11,14 @@ export default function Profile() {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [User, setUser] = useState({});
   const params = useParams();
+  const editProfilePicture = () => {
+    console.log("clicked!");
+  };
+
+  const editProfileInfo = () => {
+    axios.put("/users/"+User._id, )
+  };
+
   useEffect(() => {
     const fetch = async () => {
       const res = await axios.get(`/users?username=${params.username}`);
@@ -44,7 +52,10 @@ export default function Profile() {
                   }
                   alt=""
                 />
-                <CameraAltIcon className="cameraIcon" />
+                <CameraAltIcon
+                  onClick={editProfilePicture}
+                  className="cameraIcon"
+                />
               </div>
             </div>
             <div className="profileInfo">
@@ -54,7 +65,7 @@ export default function Profile() {
           </div>
           <div className="profileRightBottom">
             <Feed username={params.username} />
-            <Rightbar user={User} />
+            <Rightbar onEdit={editProfileInfo} user={User} />
           </div>
         </div>
       </div>

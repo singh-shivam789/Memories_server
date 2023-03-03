@@ -139,4 +139,15 @@ router.put("/:id/unfollow", async (req, res) => {
   }
 });
 
+// delete account
+router.get("/:id/delete", async (req, res) => {
+  try {
+    let userId = req.params.id;
+    await User.findByIdAndDelete(userId);
+    return res.status(200).json("user account removed!");
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+});
+
 module.exports = router;

@@ -86,7 +86,7 @@
     cursor: pointer;
 }
 
-.rightbarTop{
+.rightbarTop, .editProfileContainer{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -94,4 +94,13 @@
 
 .editIcon{
     height: 15px;
+    margin-right: 50px;
+    transition: 0.2s all ease-in-out;
+    opacity: 0.5;
+    cursor: pointer;
 }
+
+.editIcon:hover{
+    opacity: 0.8;
+}
+
