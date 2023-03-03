@@ -6,7 +6,6 @@ import Axios from "axios";
 import { format } from "timeago.js";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Backdrop from "@material-ui/core/Backdrop";
 
 const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
@@ -60,9 +59,6 @@ export default function Post({ post }) {
           </div>
           <div className="postTopRight">
             <MoreVert />
-            <Backdrop>
-              <div className="postBackdrop"></div>
-            </Backdrop>
           </div>
         </div>
         <div className="postCenter">

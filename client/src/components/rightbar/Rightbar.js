@@ -6,14 +6,29 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import Button from "@material-ui/core/Button";
-import { Backdrop, CircularProgress } from "@material-ui/core";
+import { CircularProgress } from "@material-ui/core";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
-
 const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-export default function Rightbar({ user, onEdit }) {
+export default function Rightbar({ user }) {
+  const Friend = ({ friend }) => {
+    return (
+      <div className="userFriend">
+        <img
+          className="userFriendImg"
+          src={
+            friend.profilePicture
+              ? PF + friend.profilePicture
+              : PF + "/person/0.jpeg"
+          }
+          alt=""
+        />
+        <span className="userFriendName">{friend.username}</span>
+      </div>
+    );
+  };
+
   let { user: currentUser, dispatch } = useContext(AuthContext);
   const [friends, setFriends] = useState([]);
-  const [edit, setEdit] = useState(false);
   const [fetchFriends, setFetchFriends] = useState(false);
   const [followed, setFollowed] = useState(
     currentUser.followings.includes(user?._id)
@@ -92,26 +107,26 @@ export default function Rightbar({ user, onEdit }) {
 
         <div className="rightbarTop">
           <h4 className="rightbarTitle">About you</h4>
-          <div className="editProfileContainer">
+         {currentUser.username === user.username && <div className="editProfileContainer">
             <h4>Edit Info</h4>
-            <EditRoundedIcon onClick={onEdit} className="editIcon" />
-          </div>
+            <EditRoundedIcon className="editIcon" />
+          </div>}
         </div>
 
-        <div className="rightbarInfo">
-          <div className="rightbarInfoItem">
-            <span className="rightbarInfoKey">City:</span>
-            <span className="rightbarInfoValue">{user.city || "-"}</span>
-          </div>
-          <div className="rightbarInfoItem">
-            <span className="rightbarInfoKey">From:</span>
-            <span className="rightbarInfoValue">{user.from || "-"}</span>
-          </div>
-          <div className="rightbarInfoItem">
-            <span className="rightbarInfoKey">Relationship:</span>
-            <span className="rightbarInfoValue">
-             {user.relationship}
-            </span>
+        <div className="rightbarInfoFormContainer">
+          <div className="rightbarInfo">
+            <div className="rightbarInfoItem">
+              <span className="rightbarInfoKey">City:</span>
+              <span className="rightbarInfoValue">{user.city || "-"}</span>
+            </div>
+            <div className="rightbarInfoItem">
+              <span className="rightbarInfoKey">From:</span>
+              <span className="rightbarInfoValue">{user.from || "-"}</span>
+            </div>
+            <div className="rightbarInfoItem">
+              <span className="rightbarInfoKey">Relationship:</span>
+              <span className="rightbarInfoValue">{user.relationship}</span>
+            </div>
           </div>
         </div>
         <h4 className="rightbarTitle">Your Friends</h4>
@@ -125,18 +140,7 @@ export default function Rightbar({ user, onEdit }) {
                   style={{ textDecoration: "none" }}
                   to={`/profile/${friend.username}`}
                 >
-                  <div key={friend._id} className="userFriend">
-                    <img
-                      className="userFriendImg"
-                      src={
-                        friend.profilePicture
-                          ? PF + friend.profilePicture
-                          : PF + "/person/0.jpeg"
-                      }
-                      alt=""
-                    />
-                    <span className="userFriendName">{friend.username}</span>
-                  </div>
+                  <Friend key={friend._id} friend={friend} />
                 </Link>
               );
             })}

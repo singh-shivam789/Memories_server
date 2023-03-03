@@ -45,7 +45,7 @@ export default function Login() {
               className="loginInput"
             />
             <button disabled={isFetching} type="submit" className="loginPageLoginBtn">
-              {isFetching ? <CircularProgress color="white" /> : "Log In"}
+              {isFetching ? <CircularProgress color={"inherit"} /> : "Log In"}
             </button>
             <span className="loginForgot">Forgot Password?</span>
             <Link

@@ -5,7 +5,7 @@ import Rightbar from "../../components/rightbar/Rightbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Topbar from "../../components/topbar/Topbar";
 import "./profile.css";
-import { useParams } from "react-router";
+import {  useParams } from "react-router";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
 export default function Profile() {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -13,10 +13,6 @@ export default function Profile() {
   const params = useParams();
   const editProfilePicture = () => {
     console.log("clicked!");
-  };
-
-  const editProfileInfo = () => {
-    axios.put("/users/"+User._id, )
   };
 
   useEffect(() => {
@@ -65,7 +61,7 @@ export default function Profile() {
           </div>
           <div className="profileRightBottom">
             <Feed username={params.username} />
-            <Rightbar onEdit={editProfileInfo} user={User} />
+            <Rightbar setUser={setUser} user={User} />
           </div>
         </div>
       </div>

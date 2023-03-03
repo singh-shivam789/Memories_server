@@ -64,7 +64,7 @@ export default function Share() {
         )}
         <form
           onSubmit={submitHandler}
-          enctype="multipart/form-data"
+          encType="multipart/form-data"
           className="shareBottom"
         >
           <div className="shareOptions">

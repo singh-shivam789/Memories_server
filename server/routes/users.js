@@ -23,10 +23,7 @@ router.put("/:id", async (req, res) => {
       let user = await User.findByIdAndUpdate(req.params.id, {
         $set: req.body,
       });
-      return res.status(200).json({
-        message: "User account has been updated!",
-        user: user,
-      });
+      return res.status(200).json(user);
     } catch (err) {
       return res.status(500).json(err);
     }
