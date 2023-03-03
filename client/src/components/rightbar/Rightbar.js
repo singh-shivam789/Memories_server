@@ -3,13 +3,14 @@ import { Users } from "../../dummyData";
 import OnlineFriend from "../onlineFriend/OnlineFriend";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import Button from "@material-ui/core/Button";
 import { CircularProgress } from "@material-ui/core";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
 const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 export default function Rightbar({ user }) {
+  const history = useHistory();
   const Friend = ({ friend }) => {
     return (
       <div className="userFriend">
@@ -86,6 +87,11 @@ export default function Rightbar({ user }) {
         console.log(error);
       }
     };
+
+    const handler = () => {
+      history.replace("/edit");
+    }
+
     return (
       <>
         {user.username !== currentUser.username && (
@@ -109,7 +115,7 @@ export default function Rightbar({ user }) {
           <h4 className="rightbarTitle">About you</h4>
          {currentUser.username === user.username && <div className="editProfileContainer">
             <h4>Edit Info</h4>
-            <EditRoundedIcon className="editIcon" />
+            <EditRoundedIcon onClick={handler} className="editIcon" />
           </div>}
         </div>
 

@@ -20,6 +20,10 @@ router.put("/:id", async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         req.body.password = await bcrypt.hash(req.body.password, salt);
       }
+      const exists = await User.findOne({ username: req.body.username });
+      if(exists){
+        return res.status(200).json("Username already exists");
+      }
       let user = await User.findByIdAndUpdate(req.params.id, {
         $set: req.body,
       });

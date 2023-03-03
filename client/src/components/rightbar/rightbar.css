@@ -92,3 +92,9 @@
     justify-content: space-between;
     align-items: center;
 }
+
+.editIcon{
+    height: 15px !important;
+    cursor: pointer;
+    margin-right: 20px;
+}
