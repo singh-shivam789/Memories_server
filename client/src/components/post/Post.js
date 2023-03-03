@@ -6,6 +6,7 @@ import Axios from "axios";
 import { format } from "timeago.js";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Backdrop from "@material-ui/core/Backdrop";
 
 const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
@@ -17,7 +18,7 @@ export default function Post({ post }) {
     };
     fetchUser();
   }, [post.userId]);
-  
+
   const { user } = useContext(AuthContext);
   const [like, setLike] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(false);
@@ -31,7 +32,10 @@ export default function Post({ post }) {
   };
   useEffect(() => {
     setIsLiked(post.likes.includes(user._id));
-  }, [post, user._id])
+  }, [post, user._id]);
+
+  const postHandler = () => {};
+
   return (
     <div className="post">
       <div className="postWrapper">
@@ -55,7 +59,10 @@ export default function Post({ post }) {
             <span className="postDate">{format(post.createdAt)}</span>
           </div>
           <div className="postTopRight">
-            <MoreVert></MoreVert>
+            <MoreVert />
+            <Backdrop>
+              <div className="postBackdrop"></div>
+            </Backdrop>
           </div>
         </div>
         <div className="postCenter">
@@ -80,10 +87,10 @@ export default function Post({ post }) {
               src={PF + "/heart.png"}
               alt=""
             />
-            <span className="postLikeCounter">{like} people like it</span>
+            <span className="postLikeCounter">{like} like it</span>
           </div>
           <div className="postBottomRight">
-            <div className="postComments">{post.comment} comments</div>
+            {/* <div className="postComments">{post.comment} comments</div> */}
           </div>
         </div>
       </div>

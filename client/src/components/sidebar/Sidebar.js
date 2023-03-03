@@ -4,8 +4,18 @@ import {
     Event, School
 } from '@material-ui/icons';
 import Friend from "../friend/Friend";
-import { Users } from "../../dummyData";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 export default function Sidebar() {
+    let [Users, setUsers] = useState([]);
+    useEffect(() => {
+        const fetchUsers = async () => {
+            let res = await axios.get("/users/all");
+            setUsers(res.data);
+        }
+        fetchUsers();
+    }, [])
     return (
         <div className="sidebar">
             <div className="sidebarWrapper">

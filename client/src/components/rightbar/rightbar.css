@@ -85,3 +85,13 @@
     margin-bottom: 20px;
     cursor: pointer;
 }
+
+.rightbarTop{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.editIcon{
+    height: 15px;
+}

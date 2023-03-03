@@ -6,6 +6,7 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Topbar from "../../components/topbar/Topbar";
 import "./profile.css";
 import { useParams } from "react-router";
+import CameraAltIcon from "@material-ui/icons/CameraAlt";
 export default function Profile() {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [User, setUser] = useState({});
@@ -34,15 +35,17 @@ export default function Profile() {
                 }
                 alt=""
               />
-              <img
-                className="profilePic"
-                src={
-                  User.profilePicture
-                    ? PF + User.profilePicture
-                    : PF + "person/0.jpeg"
-                }
-                alt=""
-              />
+              <div className="profilePicContainer">
+                <img
+                  src={
+                    User.profilePicture
+                      ? PF + User.profilePicture
+                      : PF + "person/0.jpeg"
+                  }
+                  alt=""
+                />
+                <CameraAltIcon className="cameraIcon" />
+              </div>
             </div>
             <div className="profileInfo">
               <h4 className="profileUserName">{User.username}</h4>

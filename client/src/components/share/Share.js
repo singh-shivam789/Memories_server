@@ -1,8 +1,8 @@
 import "./share.css";
-import { Photo, Label, LocationOn, Mood } from "@material-ui/icons";
+import { Photo, Label, LocationOn, Mood, Cancel } from "@material-ui/icons";
 import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import axios from "axios";
+import axios from "axios";  
 export default function Share() {
   const { user } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -24,7 +24,6 @@ export default function Share() {
       data.append("name", fileName);
       data.append("file", file);
       newPost.img = fileName;
-      console.log(newPost);
       try {
         await axios.post("/upload", data);
       } catch (err) {}
@@ -55,6 +54,14 @@ export default function Share() {
           />
         </div>
         <hr />
+        {file && (
+          <div className="previewImgContainer">
+            <img className="previewImg" src={URL.createObjectURL(file)} alt=""/>
+            <Cancel className="previewImgRemove" onClick={() => {
+              setFile(null)
+            }}/>
+          </div>
+        )}
         <form
           onSubmit={submitHandler}
           enctype="multipart/form-data"

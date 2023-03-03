@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import Button from "@material-ui/core/Button";
 import { CircularProgress } from "@material-ui/core";
-
+import EditRoundedIcon from "@material-ui/icons/EditRounded";
 const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 export default function Rightbar({ user }) {
   let { user: currentUser, dispatch } = useContext(AuthContext);
@@ -87,7 +87,12 @@ export default function Rightbar({ user }) {
             {followed ? "Unfollow" : "Follow"}
           </Button>
         )}
-        <h4 className="rightbarTitle">About you</h4>
+
+        <div className="rightbarTop">
+          <h4 className="rightbarTitle">About you</h4>
+          <EditRoundedIcon className="editIcon"/>
+        </div>
+
         <div className="rightbarInfo">
           <div className="rightbarInfoItem">
             <span className="rightbarInfoKey">City:</span>
@@ -125,7 +130,7 @@ export default function Rightbar({ user }) {
                       src={
                         friend.profilePicture
                           ? PF + friend.profilePicture
-                          : PF + "/person/1.jpeg"
+                          : PF + "/person/0.jpeg"
                       }
                       alt=""
                     />
