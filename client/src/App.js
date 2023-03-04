@@ -12,7 +12,6 @@ import Profile from "./pages/profile/Profile";
 import Register from "./pages/register/Register";
 import ErrorPage from "./pages/error/ErrorPage";
 import { AuthContext } from "./context/AuthContext";
-import EditProfile from "./pages/edit/EditProfile";
 function App() {
   const { user } = useContext(AuthContext);
   return (
@@ -27,9 +26,6 @@ function App() {
         </Route>
         <Route path="/register">
           {!user ? <Register /> : <Redirect to="/" />}
-        </Route>
-        <Route path="/edit">
-         {!user ? <Redirect to={"/login"}/> : <EditProfile/>}
         </Route>
         <Route path="*">
           <ErrorPage />

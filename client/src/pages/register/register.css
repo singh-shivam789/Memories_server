@@ -5,6 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 1s ease-in-out;
 }
 
 .loginWrapper {
@@ -40,6 +41,7 @@
   flex-direction: column;
   border-radius: 10px;
   justify-content: space-between;
+  position: relative;
 }
 
 .loginInput {
@@ -79,4 +81,38 @@
   font-weight: 500;
   font-size: 20px;
   line-height: 50px;
+}
+
+.passwordVisibilityIcon {
+  position: absolute;
+  cursor: pointer;
+  top: 39.5%;
+  left: 92%;
+  opacity: 0.5;
+  transition: 0.5 all ease-in-out;
+}
+
+.passwordVisibilityIcon:hover{
+  opacity: 0.8;
+}
+
+.passwordVisibilityIcon:active{
+  transform: scale(1.1);
+}
+
+.confirmPasswordVisibilityIcon {
+  position: absolute;
+  cursor: pointer;
+  top: 55.5%;
+  left: 92%;
+  opacity: 0.5;
+  transition: 0.5 all ease-in-out;
+}
+
+.confirmPasswordVisibilityIcon:hover{
+  opacity: 0.8;
+}
+
+.confirmPasswordVisibilityIcon:active{
+  transform: scale(1.1);
 }

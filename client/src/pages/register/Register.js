@@ -2,8 +2,10 @@ import axios from "axios";
 import { useRef, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import "./register.css";
-// import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 
 export default function Register() {
   const username = useRef();
@@ -12,58 +14,56 @@ export default function Register() {
   const confirmPassword = useRef();
   const form = useRef();
   const history = useHistory();
-  // const [isValid, setIsValid] = useState(false);
-  // const [isValidStyle, setIsValidStyle] = useState({});
+  const [hasRegistered, setHasRegisted] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isConfirmPasswordVisible, setIsConformPasswordVisible] =
+    useState(false);
+
   const submitHandler = async function (event) {
     event.preventDefault();
-    const user = {
-      username: username.current.value,
-      email: email.current.value,
-      password: password.current.value,
-    };
-    // TODO
-    // CHECK IF USERNAME ALREADY EXISTS,
-    // IF YES -> REDIRECT TO LOGIN
-    // IF NOT SUGGEST TO CHANGE USERNAME
-    // toast
-    //   .promise(axios.get(`/users?username=${user.username}`), {
-    //     pending: "Trying to sign you up...",
-    //     success: "Got it!",
-    //     error: "Something is not right ☹️",
-    //   })
-    //   .then((res) => {
-    //     if (res.data.user) {
-    //       toast.warn(`Username already taken!`, {
-    //         position: "top-right",
-    //         autoClose: 5000,
-    //         hideProgressBar: false,
-    //         closeOnClick: true,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //         theme: "dark",
-    //       });
-    //     } else {
-    //       toast.success("This username is available 😊", {
-    //         position: "top-right",
-    //         autoClose: 5000,
-    //         hideProgressBar: false,
-    //         closeOnClick: true,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //         theme: "light",
-    //       });
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-
-    let res = await axios.post(`/auth/register`, user);
-    console.log(res);
-    if (res.response.data === "User with this email already exists!")
+    if (password.current.value !== confirmPassword.current.value) {
+      toast.warn("Both passwords must be same!");
+    } else {
+      const user = {
+        username: username.current.value,
+        email: email.current.value,
+        password: password.current.value,
+      };
+      toast
+        .promise(axios.post(`/auth/register`, user), {
+          pending: "Trying to sign you up...",
+        })
+        .then((res) => {
+          if (res.data.exists) {
+            toast.warn(`Username/email already in use!`, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
+          } else {
+            toast.success("Account successfully created 😊", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+            setHasRegisted(true);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       history.push("/login");
+    }
   };
 
   return (
@@ -78,30 +78,36 @@ export default function Register() {
         <div className="loginRight">
           <form ref={form} onSubmit={submitHandler} className="loginBox">
             <input
+              required
               ref={username}
               type={"text"}
               placeholder="Username "
               className="loginInput"
             />
             <input
+              required
               ref={email}
               type={"email"}
               placeholder="Email"
               className="loginInput"
             />
             <input
+              required
               ref={password}
-              type={"text"}
+              type={isPasswordVisible ? "text" : "password"}
               placeholder="Password"
               className="loginInput"
               minLength={"6"}
+              maxLength={"15"}
             />
             <input
+              required
               ref={confirmPassword}
-              type={"text"}
+              type={isConfirmPasswordVisible ? "text" : "password"}
               placeholder="Confirm Password"
               className="loginInput"
               minLength={"6"}
+              maxLength={"15"}
             />
             <button type="submit" className="regPageSignupBtn">
               Sign Up
@@ -109,9 +115,30 @@ export default function Register() {
             <Link className="regPageLoginBtn" to="/login">
               Log into Account
             </Link>
+            <div
+              onClick={() => {
+                setIsPasswordVisible(!isPasswordVisible);
+              }}
+              className="passwordVisibilityIcon"
+            >
+              {isPasswordVisible ? <VisibilityIcon /> : <VisibilityOffIcon />}
+            </div>
+            <div
+              onClick={() => {
+                setIsConformPasswordVisible(!isConfirmPasswordVisible);
+              }}
+              className="confirmPasswordVisibilityIcon"
+            >
+              {isConfirmPasswordVisible ? (
+                <VisibilityIcon />
+              ) : (
+                <VisibilityOffIcon />
+              )}
+            </div>
           </form>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }
