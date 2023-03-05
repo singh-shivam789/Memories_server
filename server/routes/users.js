@@ -14,27 +14,19 @@ router.get("/all", async (req, res) => {
 
 //update user
 router.put("/:id", async (req, res) => {
-  if (req.body.userId == req.params.id || req.body.isAdmin) {
-    try {
-      if (req.body.password) {
-        const salt = await bcrypt.genSalt(10);
-        req.body.password = await bcrypt.hash(req.body.password, salt);
-      }
-      const exists = await User.findOne({ username: req.body.username });
-      if(exists){
-        return res.status(200).json("Username already exists");
-      }
-      let user = await User.findByIdAndUpdate(req.params.id, {
+  try {
+    
+    const userId = req.params.id;
+    const exists = await User.findById(userId);
+    if (exists) {
+      let user = await User.findByIdAndUpdate(userId, {
         $set: req.body,
       });
-      return res.status(200).json(user);
-    } catch (err) {
-      return res.status(500).json(err);
-    }
-  } else {
-    return res
-      .status(403)
-      .json("You are not authorized to perform this action!");
+
+      return res.status(200).json({ message: "success", data: user });
+    } else throw "Unauthorized";
+  } catch (err) {
+    return res.status(500).json(err);
   }
 });
 

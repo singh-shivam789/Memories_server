@@ -6,15 +6,10 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Topbar from "../../components/topbar/Topbar";
 import "./profile.css";
 import {  useParams } from "react-router";
-import CameraAltIcon from "@material-ui/icons/CameraAlt";
 export default function Profile() {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [User, setUser] = useState({});
   const params = useParams();
-  const editProfilePicture = () => {
-    console.log("clicked!");
-  };
-
   useEffect(() => {
     const fetch = async () => {
       const res = await axios.get(`/users?username=${params.username}`);
@@ -47,10 +42,6 @@ export default function Profile() {
                       : PF + "person/0.jpeg"
                   }
                   alt=""
-                />
-                <CameraAltIcon
-                  onClick={editProfilePicture}
-                  className="cameraIcon"
                 />
               </div>
             </div>

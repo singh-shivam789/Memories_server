@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 1s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 .loginWrapper {
@@ -15,7 +15,8 @@
 }
 
 .loginLeft,
-.loginRight {
+.loginRightNotRegistered,
+.loginRightRegistered {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -44,6 +45,17 @@
   position: relative;
 }
 
+.loginBoxImgDesc {
+  height: 500px;
+  padding: 20px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  justify-content: space-between;
+  position: relative;
+}
+
 .loginInput {
   height: 50px;
   border-radius: 10px;
@@ -60,7 +72,7 @@
   height: 50px;
   border-radius: 10px;
   border: none;
-  background-color: rgb(147, 215, 193);
+  background-color: #93d7c1;
   color: white;
   cursor: pointer;
   font-weight: 500;
@@ -92,11 +104,11 @@
   transition: 0.5 all ease-in-out;
 }
 
-.passwordVisibilityIcon:hover{
+.passwordVisibilityIcon:hover {
   opacity: 0.8;
 }
 
-.passwordVisibilityIcon:active{
+.passwordVisibilityIcon:active {
   transform: scale(1.1);
 }
 
@@ -109,10 +121,102 @@
   transition: 0.5 all ease-in-out;
 }
 
-.confirmPasswordVisibilityIcon:hover{
+.confirmPasswordVisibilityIcon:hover {
   opacity: 0.8;
 }
 
-.confirmPasswordVisibilityIcon:active{
+.confirmPasswordVisibilityIcon:active {
   transform: scale(1.1);
+}
+
+.userImg {
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  position: relative;
+  margin-bottom: 10px;
+}
+.profilePic {
+  display: flex;
+  border: 1px solid #93d7c1;
+  height: 150px;
+  width: 150px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  background-color: #ccc;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.profilePic > img{
+  border: 1px solid #93d7c1;
+  height: 150px;
+  width: 150px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.2s all ease-in-out !important;
+}
+
+.profilePic > img:hover{
+   opacity: 0.6;
+}
+
+.profilePic > img:active{
+   opacity: 0.8;
+}
+.regCameraIcon {
+  cursor: pointer;
+  color: whitesmoke;
+  transform: scale(3.5);
+  transition: 0.2s all ease-in-out !important;
+  opacity: 0.6;
+}
+
+.regCameraIcon:hover {
+  transform: scale(4);
+  opacity: 0.9;
+}
+
+.regCameraIcon:active {
+  opacity: 1;
+  transform: scale(5);
+}
+
+.userDesc {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: end;
+  height: 55%;
+}
+
+.userDesc > div > input {
+  margin-top: 2px;
+  height: 30px;
+  width: 90%;
+  border-radius: 10px;
+  border: 1px solid gray;
+  font-size: 18px;
+  padding-left: 20px;
+}
+
+.regPageConfirmBtn {
+  align-self: end;
+  width: 30%;
+  height: 50px;
+  border-radius: 10px;
+  border: none;
+  background-color: #93d7c1;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.userDesc > div {
+  margin-top: 10px;
 }
