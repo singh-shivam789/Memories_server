@@ -7,6 +7,9 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+
 export default function Login() {
   const { isFetching, dispatch } = useContext(AuthContext);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -81,6 +84,7 @@ export default function Login() {
           </form>
         </div>
       </div>
+      <ToastContainer/>
     </div>
   );
 }

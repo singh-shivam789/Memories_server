@@ -95,14 +95,14 @@ export default function Register() {
       data.append("name", fileName);
       data.append("file", file);
       userData.profilePicture = fileName;
-      console.log(userData); 
+      console.log(userData);
       try {
-         await axios.post("/upload", data);
-       } catch (err) {
+        await axios.post("/upload", data);
+      } catch (err) {
         console.log(err);
-       }
+      }
     }
-    
+
     try {
       console.log(user);
       const res = await axios.put(`/users/${user._id}`, userData);
@@ -110,45 +110,42 @@ export default function Register() {
     } catch (error) {
       console.log(error);
     }
-    try {
-      const updatedUser = await axios.put(`/users/${user._id}`, userData);
-    } catch (error) {
-      console.log(error)
-    }
+
     toast
-      .promise(axios.post(`/users/${user._id}`, userData), {
-        pending: "Trying to sign you up...",
+      .promise(axios.put(`/users/${user._id}`, userData), {
+        pending: "Trying to update your info...",
+        error: "Something went wrong ☹️",
       })
       .then((res) => {
-        if (res.data.code === 11000) {
-          toast.warn(`Username or Email already in use!`, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
-        } else {
-          toast.success("Account successfully created 😊", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-          setHasRegisted(true);
-          setUser(res.data.user);
-        }
+        console.log(res);
+        toast.success("Successfully updated your info", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.toString());
+        toast.error(err, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       });
+
+    setTimeout(() => {
+      history.push("/login");
+    }, 3000);
   };
 
   return (
@@ -251,7 +248,9 @@ export default function Register() {
                   <label className="profilePic" htmlFor="file">
                     {file ? (
                       <img
-                        onClick={() => {setFile(null)}}
+                        onClick={() => {
+                          setFile(null);
+                        }}
                         src={URL.createObjectURL(file)}
                         alt=""
                       />
@@ -278,7 +277,7 @@ export default function Register() {
                   <div className="from">
                     <label htmlFor="from">
                       <h4 style={{ fontWeight: "bold", color: "grey" }}>
-                        Where are you from:
+                        Which country are you from:
                       </h4>
                     </label>
                     <input type="text" id="from" ref={from} />
