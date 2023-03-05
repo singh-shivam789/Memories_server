@@ -28,7 +28,7 @@ function App() {
           {!user ? <Register /> : <Redirect to="/" />}
         </Route>
         <Route path="/error">
-          {!user && error ? <ErrorPage /> : <Login />}
+          {!user && error ? <ErrorPage /> : <Redirect to={"/login"} />}
         </Route>
         <Route path="*">
           <ErrorPage />
