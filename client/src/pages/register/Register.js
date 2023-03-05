@@ -95,7 +95,6 @@ export default function Register() {
       data.append("name", fileName);
       data.append("file", file);
       userData.profilePicture = fileName;
-      console.log(userData);
       try {
         await axios.post("/upload", data);
       } catch (err) {
@@ -104,9 +103,7 @@ export default function Register() {
     }
 
     try {
-      console.log(user);
       const res = await axios.put(`/users/${user._id}`, userData);
-      console.log(res);
     } catch (error) {
       console.log(error);
     }
@@ -117,7 +114,6 @@ export default function Register() {
         error: "Something went wrong ☹️",
       })
       .then((res) => {
-        console.log(res);
         toast.success("Successfully updated your info", {
           position: "top-right",
           autoClose: 3000,

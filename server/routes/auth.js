@@ -49,7 +49,7 @@ router.post("/login", async (req, res) => {
       if (!validPassword)
         return res
           .status(400)
-          .json({ message: "Invalid password or email", data: null });
+          .json({ message: "Invalid Password!", data: null });
       else return res.status(200).json(user);
     }
   } catch (err) {

@@ -45,7 +45,7 @@ export default function Login() {
           setTimeout(() => {
             dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
           }, 2000);
-          toast.success("Account successfully created 😊", {
+          toast.success("Logged in successfully 😊", {
             position: "top-right",
             autoClose: 4000,
             hideProgressBar: false,
@@ -58,9 +58,10 @@ export default function Login() {
         }
       })
       .catch((err) => {
-        toast.error(err, {
+        console.log(err);
+        toast.error(err.response.data.message, {
           position: "top-right",
-          autoClose: 5000,
+          autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
