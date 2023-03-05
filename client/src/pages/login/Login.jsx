@@ -4,9 +4,13 @@ import { login } from "../apiCalls";
 import { AuthContext } from "../../context/AuthContext";
 import { CircularProgress } from "@material-ui/core";
 import { Link } from "react-router-dom";
-
+import { useState } from "react";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 export default function Login() {
   const { isFetching, dispatch } = useContext(AuthContext);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
   let email = useRef(),
     password = useRef();
   const formHandler = (e) => {
@@ -37,14 +41,21 @@ export default function Login() {
               className="loginInput"
             />
             <input
+              onChange={() => {
+                setIsPasswordVisible(false);
+              }}
               required
               minLength="6"
               ref={password}
               placeholder="Password"
-              type="password"
+              type={isPasswordVisible ? "text" : "password"}
               className="loginInput"
             />
-            <button disabled={isFetching} type="submit" className="loginPageLoginBtn">
+            <button
+              disabled={isFetching}
+              type="submit"
+              className="loginPageLoginBtn"
+            >
               {isFetching ? <CircularProgress color={"inherit"} /> : "Log In"}
             </button>
             <span className="loginForgot">Forgot Password?</span>
@@ -59,6 +70,14 @@ export default function Login() {
                 "Create a new Account"
               )}
             </Link>
+            <div
+              onClick={() => {
+                setIsPasswordVisible(!isPasswordVisible);
+              }}
+              className="loginPasswordVisibilityIcon"
+            >
+              {isPasswordVisible ? <VisibilityIcon /> : <VisibilityOffIcon />}
+            </div>
           </form>
         </div>
       </div>

@@ -97,50 +97,58 @@ export default function Register() {
       userData.profilePicture = fileName;
       console.log(userData); 
       try {
-         await axios.post("/users/upload", data);
+         await axios.post("/upload", data);
        } catch (err) {
         console.log(err);
        }
     }
-    // try {
-    //   const updatedUser = await axios.put(`/users/${user._id}`, userData);
-    // } catch (error) {
-    //   console.log(error)
-    // }
-    // toast
-    //   .promise(axios.post(`/users/${user._id}`, userData), {
-    //     pending: "Trying to sign you up...",
-    //   })
-    //   .then((res) => {
-    //     if (res.data.code === 11000) {
-    //       toast.warn(`Username or Email already in use!`, {
-    //         position: "top-right",
-    //         autoClose: 5000,
-    //         hideProgressBar: false,
-    //         closeOnClick: true,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //         theme: "dark",
-    //       });
-    //     } else {
-    //       toast.success("Account successfully created 😊", {
-    //         position: "top-right",
-    //         autoClose: 5000,
-    //         hideProgressBar: false,
-    //         closeOnClick: true,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //         theme: "light",
-    //       });
-    //       setHasRegisted(true);
-    //       setUser(res.data.user);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    
+    try {
+      console.log(user);
+      const res = await axios.put(`/users/${user._id}`, userData);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+    try {
+      const updatedUser = await axios.put(`/users/${user._id}`, userData);
+    } catch (error) {
+      console.log(error)
+    }
+    toast
+      .promise(axios.post(`/users/${user._id}`, userData), {
+        pending: "Trying to sign you up...",
+      })
+      .then((res) => {
+        if (res.data.code === 11000) {
+          toast.warn(`Username or Email already in use!`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        } else {
+          toast.success("Account successfully created 😊", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          setHasRegisted(true);
+          setUser(res.data.user);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (

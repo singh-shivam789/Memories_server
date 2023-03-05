@@ -63,6 +63,7 @@
   cursor: pointer;
   font-weight: 500;
   font-size: 20px;
+  transition: 0.4s all ease-in-out !important;
 }
 
 .loginForgot {
@@ -86,4 +87,33 @@
   cursor: pointer;
   font-weight: 500;
   font-size: 20px;
+  transition: 0.4s all ease-in-out !important;
+}
+
+.loginPageLoginBtn:hover,
+.loginPageRegBtn:hover {
+  opacity: 0.8;
+}
+
+.loginPageLoginBtn:active,
+.loginPageRegBtn:active {
+  opacity: 0.6;
+  transform: scale(0.95);
+}
+
+.loginPasswordVisibilityIcon {
+  position: absolute;
+  cursor: pointer;
+  top: 29.5%;
+  left: 92%;
+  opacity: 0.5;
+  transition: 0.5 all ease-in-out;
+}
+
+.loginPasswordVisibilityIcon:hover {
+  opacity: 0.8;
+}
+
+.loginPasswordVisibilityIcon:active {
+  transform: scale(1.1);
 }
