@@ -263,6 +263,7 @@ export default function Register() {
                     onChange={saveFile}
                     type="file"
                     id="file"
+                    accept=".png,.jpeg,.jpg"
                   />
                 </div>
                 <div className="userDesc">

@@ -6,7 +6,10 @@ const bcrypt = require("bcrypt");
 router.post("/register", async (req, res) => {
   try {
     // find if user already exists
-    let ifUser = await User.findOne({ username: req.body.username, email: req.body.email });
+    let ifUser = await User.findOne({
+      username: req.body.username,
+      email: req.body.email,
+    });
     if (!ifUser) {
       // generate hashed password!
       const salt = await bcrypt.genSalt(10);
@@ -21,9 +24,9 @@ router.post("/register", async (req, res) => {
 
       //save user and respond
       const user = await newUser.save();
-      return res.status(200).json({user: user});
+      return res.status(200).json({ user: user });
     } else {
-      return res.status(200).json({exists: true});
+      return res.status(200).json({ exists: true });
     }
   } catch (err) {
     res.status(200).json(err);
@@ -33,16 +36,22 @@ router.post("/register", async (req, res) => {
 //LOGIN
 router.post("/login", async (req, res) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
-    if (!user) return res.status(404).json("user not found");
-
-    const validPassword = await bcrypt.compare(
-      req.body.password,
-      user.password
-    );
-    if (!validPassword) return res.status(400).json("wrong password");
-
-    return res.status(200).json(user);
+    const user = await User.findOne({
+      email: req.body.email
+    });
+    if (!user)
+      return res.status(200).json({ message: "not found", data: null });
+    else {
+      const validPassword = await bcrypt.compare(
+        req.body.password,
+        user.password
+      );
+      if (!validPassword)
+        return res
+          .status(400)
+          .json({ message: "Invalid password or email", data: null });
+      else return res.status(200).json(user);
+    }
   } catch (err) {
     return res.status(500).json(err);
   }

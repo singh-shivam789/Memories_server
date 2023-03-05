@@ -34,10 +34,10 @@ const AuthReducer = (state, action) => {
           followings: state.user.followings.filter((friendId) => friendId !== action.payload)
         }
       };
-    case "EDIT_PROFILE_INFO":
+    case "RESET":
       return {
         ...state,
-        user : action.payload
+        isFetching: false
       }
     default:
       return state;

@@ -1,6 +1,5 @@
 import React, { useContext, useRef } from "react";
 import "./login.css";
-import { login } from "../apiCalls";
 import { AuthContext } from "../../context/AuthContext";
 import { CircularProgress } from "@material-ui/core";
 import { Link } from "react-router-dom";
@@ -9,19 +8,70 @@ import VisibilityIcon from "@material-ui/icons/Visibility";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-
+import axios from "axios";
 export default function Login() {
   const { isFetching, dispatch } = useContext(AuthContext);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   let email = useRef(),
     password = useRef();
-  const formHandler = (e) => {
+  const formHandler = async (e) => {
     e.preventDefault();
-    login(
-      { email: email.current.value, password: password.current.value },
-      dispatch
-    );
+    const userCredentials = {
+      email: email.current.value,
+      password: password.current.value,
+    };
+    dispatch({ type: "LOGIN_START" });
+    toast
+      .promise(axios.post("auth/login", userCredentials), {
+        pending: "Logging in...",
+      })
+      .then((res) => {
+        if (res.data.message === "not found") {
+          toast.warning("Cannot find any user with this email 😕", {
+            position: "top-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+          setTimeout(() => {
+            dispatch({ type: "RESET" });
+          }, 2000);
+        } else {
+          setTimeout(() => {
+            dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
+          }, 2000);
+          toast.success("Account successfully created 😊", {
+            position: "top-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
+      })
+      .catch((err) => {
+        toast.error(err, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        setTimeout(() => {
+          dispatch({ type: "LOGIN_FAILURE", payload: err });
+        }, 2000);
+      });
   };
 
   return (
@@ -84,7 +134,7 @@ export default function Login() {
           </form>
         </div>
       </div>
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 }
