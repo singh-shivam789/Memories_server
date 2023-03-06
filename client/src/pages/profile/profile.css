@@ -54,3 +54,10 @@
 .profileUserDesc {
   font-weight: 300;
 }
+
+.logoutDeleteProfileBtns{
+  display: flex;
+  width: 95%;
+  justify-content: flex-end;
+  align-items: center;
+}

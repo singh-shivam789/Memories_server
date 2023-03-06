@@ -89,7 +89,9 @@ export default function Sidebar() {
         <div className="sidebarFriendsListContainer">
           <ul className="sidebarFriendsList">
             {Users.map((user) => (
-              <Friend key={user._id} user={user}></Friend>
+              <>
+                <Friend key={user._id} user={user} />
+              </>
             ))}
           </ul>
         </div>

@@ -1,12 +1,12 @@
-.sidebarFriendsListItem > img{
+.sidebarFriendsListItem > img {
   transition: 0.3s all ease-in-out !important;
 }
 
-.sidebarFriendsListItem>img:hover{
+.sidebarFriendsListItem > img:hover {
   opacity: 0.8;
   transform: scale(1.1);
 }
 
-.sidebarFriendsListItem>img:active{
+.sidebarFriendsListItem > img:active {
   opacity: 1;
 }

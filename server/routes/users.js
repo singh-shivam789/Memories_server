@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
-
+const Post = require("../models/Post");
 // get all users
 router.get("/all", async (req, res) => {
   try {
@@ -15,7 +15,6 @@ router.get("/all", async (req, res) => {
 //update user
 router.put("/:id", async (req, res) => {
   try {
-    
     const userId = req.params.id;
     const exists = await User.findById(userId);
     if (exists) {
@@ -32,15 +31,23 @@ router.put("/:id", async (req, res) => {
 
 //delete user
 router.delete("/:id", async (req, res) => {
-  if (req.body.userId === req.params.id || req.body.isAdmin) {
-    try {
-      await User.findByIdAndDelete(req.params.id);
-      res.status(200).json("Account has been deleted");
-    } catch (err) {
-      return res.status(500).json(err);
-    }
-  } else {
-    return res.status(403).json("You can delete only your account!");
+  try {
+    let deletedUser = req.params.id;
+    await User.findByIdAndDelete(deletedUser);
+    let users = await User.find({});
+    users.forEach((user) => {
+      Promise.all(
+        user.followings.forEach(async (friendId) => {
+          await User.findByIdAndUpdate(friendId, {
+            $pull: { followings: deletedUser },
+          });
+        })
+      );
+    });
+    await Post.deleteMany({ userId: deletedUser });
+    res.status(200).json({ message: "Account has been deleted", data: null });
+  } catch (err) {
+    return res.status(500).json(err);
   }
 });
 
@@ -129,17 +136,6 @@ router.put("/:id/unfollow", async (req, res) => {
     }
   } else {
     res.status(403).json("you cant unfollow yourself");
-  }
-});
-
-// delete account
-router.get("/:id/delete", async (req, res) => {
-  try {
-    let userId = req.params.id;
-    await User.findByIdAndDelete(userId);
-    return res.status(200).json("user account removed!");
-  } catch (error) {
-    return res.status(500).json(error);
   }
 });
 

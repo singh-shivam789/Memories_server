@@ -29,11 +29,10 @@ export default function Rightbar({ user }) {
   let { user: currentUser, dispatch } = useContext(AuthContext);
   const [friends, setFriends] = useState([]);
   const [fetchFriends, setFetchFriends] = useState(false);
-  const [followed, setFollowed] = useState(
-    currentUser.followings.includes(user?._id)
-  );
+  const [followed, setFollowed] = useState(false);
 
   useEffect(() => {
+    setFollowed(currentUser.followings.includes(user?._id));
     const getFriends = async () => {
       try {
         const friendsList = await axios.get("/users/friends/" + user._id);
@@ -88,7 +87,7 @@ export default function Rightbar({ user }) {
 
     return (
       <>
-        {user.username !== currentUser.username && (
+        {user._id !== currentUser._id && (
           <Button
             style={{
               textTransform: "capitalize",
