@@ -5,12 +5,11 @@ import Rightbar from "../../components/rightbar/Rightbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Topbar from "../../components/topbar/Topbar";
 import "./profile.css";
-import { useHistory, useParams } from "react-router";
+import { useParams } from "react-router";
 import { Button } from "@material-ui/core";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 export default function Profile() {
-  const history = useHistory();
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [User, setUser] = useState({});
   const params = useParams();
@@ -69,7 +68,7 @@ export default function Profile() {
                 <img
                   src={
                     User.profilePicture
-                      ? PF + User.profilePicture
+                      ? PF + "person/" + User.profilePicture
                       : PF + "person/0.jpeg"
                   }
                   alt=""

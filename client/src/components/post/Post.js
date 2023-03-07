@@ -25,15 +25,16 @@ export default function Post({ post }) {
   const likeHandler = async () => {
     try {
       await axios.put("/posts/" + post._id + "/like", { userId: user._id });
-    } catch (err) {}
+    } catch (err) {
+      console.log(err)
+      window.alert(err);
+    }
     setLike(isLiked ? like - 1 : like + 1);
     setIsLiked(!isLiked);
   };
   useEffect(() => {
     setIsLiked(post.likes.includes(user._id));
   }, [post, user._id]);
-
-  const postHandler = () => {};
 
   return (
     <div className="post">
@@ -48,7 +49,7 @@ export default function Post({ post }) {
                 className="postOwnerImg"
                 src={
                   User.profilePicture
-                    ? PF + User.profilePicture
+                    ? PF + "person/" + User.profilePicture
                     : PF + "/person/0.jpeg"
                 }
                 alt=""
@@ -64,7 +65,7 @@ export default function Post({ post }) {
         <div className="postCenter">
           <div className="postText">{post?.desc}</div>
           {post.img ? (
-            <img className="postImg" src={PF + post?.img} alt="" />
+            <img className="postImg" src={PF + "files/" + post?.img} alt="" />
           ) : (
             ""
           )}

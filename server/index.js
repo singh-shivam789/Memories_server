@@ -7,7 +7,6 @@ const morgan = require("morgan");
 const userRoute = require("./routes/users");
 const authRoute = require("./routes/auth");
 const postRoute = require("./routes/posts");
-const multer = require("multer");
 const path = require("path");
 dotenv.config();
 let username = encodeURIComponent("shivamsingh_99");
@@ -30,27 +29,6 @@ app.use("/files", express.static(path.join(__dirname, "public/files")));
 app.use(express.json());
 app.use(helmet());
 app.use(morgan("common"));
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "public/files");
-  },
-  filename: (req, file, cb) => {
-    cb(null, req.body.name);
-  },
-});
-
-const upload = multer({ storage });
-app.post("/api/upload", upload.single("file"), (req, res) => {
-  try {
-    return res
-      .status(200)
-      .json({ status: "ok", message: "file uploaded successfully!" });
-  } catch (error) {
-
-    console.log("error coming in uploading file", err);
-  }
-});
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);

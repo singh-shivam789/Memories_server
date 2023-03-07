@@ -11,7 +11,7 @@ const history = useHistory();
           history.push("/profile/" + user.username)
         }}
         src={
-          user.profilePicture ? PF + user.profilePicture : PF + "/person/0.jpeg"
+          user.profilePicture ? PF + "person/" + user.profilePicture : PF + "/person/0.jpeg"
         }
         alt=""
         className="sidebarFriendsListItemImg"

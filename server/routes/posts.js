@@ -1,6 +1,28 @@
 const router = require("express").Router();
+const multer = require('multer');
 const Post = require("../models/Post");
 const User = require("../models/User");
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/files/posts");
+  },
+  filename: (req, file, cb) => {
+    cb(null, req.body.name);
+  },
+});
+
+const upload = multer({ storage });
+router.post("/upload", upload.single("file"), (req, res) => {
+  try {
+    return res
+      .status(200)
+      .json({ status: "ok", message: "file uploaded successfully!" });
+  } catch (error) {
+    console.log("error coming in uploading file", err);
+  }
+});
+
 
 // get all posts
 router.get("/all", async (req, res) => {

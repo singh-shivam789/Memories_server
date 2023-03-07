@@ -47,7 +47,7 @@
 }
 
 .shareOptionIcon {
-  font-size: 10px;
+  font-size: 20px;
 }
 
 .shareOptionText {
@@ -100,6 +100,7 @@
 }
 
 .previewImg {
+  display: block;
   border-radius: 5px;
   width: 100%;
   object-fit: cover;
@@ -117,4 +118,15 @@
   right: 20px;
   cursor: pointer;
   opacity: 0.8;
+  transition: 0.5s all ease-in-out;
+}
+
+.previewImgRemove:hover {
+  opacity: 0.9;
+  transform: scale(1.1);
+}
+
+.previewImgRemove:active {
+  transform: scale(1.2);
+  opacity: 1;
 }

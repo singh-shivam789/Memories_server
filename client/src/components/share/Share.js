@@ -1,12 +1,13 @@
 import "./share.css";
-import { Photo, Label, LocationOn, Mood, Cancel } from "@material-ui/icons";
+import { Photo, Label, LocationOn, Mood, Delete } from "@material-ui/icons";
 import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import axios from "axios";  
+import axios from "axios";
 export default function Share() {
   const { user } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const desc = useRef();
+  const fileRef = useRef();
   const [file, setFile] = useState(null);
   const saveFile = (e) => {
     setFile(e.target.files[0]);
@@ -18,14 +19,15 @@ export default function Share() {
       userId: user._id,
       desc: desc.current.value,
     };
+
     if (file) {
       const data = new FormData();
-      const fileName = Date.now() + file.name;
+      const fileName = user._id + " " + file.name;
       data.append("name", fileName);
       data.append("file", file);
       newPost.img = fileName;
       try {
-        await axios.post("/upload", data);
+        await axios.post("/posts/upload", data);
       } catch (err) {}
     }
     try {
@@ -41,7 +43,7 @@ export default function Share() {
             className="shareProfilePic"
             src={
               user.profilePicture
-                ? PF + user.profilePicture
+                ? PF + "person/" + user.profilePicture
                 : PF + "/person/0.jpeg"
             }
             alt=""
@@ -56,10 +58,19 @@ export default function Share() {
         <hr />
         {file && (
           <div className="previewImgContainer">
-            <img className="previewImg" src={URL.createObjectURL(file)} alt=""/>
-            <Cancel className="previewImgRemove" onClick={() => {
-              setFile(null)
-            }}/>
+            <img
+              className="previewImg"
+              src={URL.createObjectURL(file)}
+              alt=""
+            />
+            <Delete
+              style={{ color: "red" }}
+              className="previewImgRemove"
+              onClick={() => {
+                setFile(null);
+                fileRef.current.value = "";
+              }}
+            />
           </div>
         )}
         <form
@@ -76,6 +87,7 @@ export default function Share() {
               <Photo className="shareOptionIcon" htmlColor="tomato"></Photo>
               <span className="shareOptionText">Photo</span>
               <input
+                ref = {fileRef}
                 style={{ display: "none" }}
                 type="file"
                 id="file"

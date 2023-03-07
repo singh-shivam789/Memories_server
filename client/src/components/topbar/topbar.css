@@ -77,6 +77,16 @@
   height: 32px;
   object-fit: cover;
   cursor: pointer;
+  transition: 0.3s all ease-in-out !important;
+}
+
+.topbarProfilePicture:hover {
+  opacity: 0.8;
+  transform: scale(1.1);
+}
+
+.topbarProfilePicture:active {
+  opacity: 1;
 }
 
 .topbarLinks,

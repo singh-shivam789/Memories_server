@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./register.css";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
 export default function Register() {
+  const fileRef = useRef();
   const username = useRef();
   const email = useRef();
   const password = useRef();
@@ -82,7 +83,6 @@ export default function Register() {
 
   const userDescSubmitHandler = async function (event) {
     event.preventDefault();
-
     const userData = {
       desc: desc.current.value,
       from: from.current.value,
@@ -91,19 +91,19 @@ export default function Register() {
     };
     if (file) {
       const data = new FormData();
-      const fileName = "profile" + Date.now() + file.name;
+      const fileName = user._id + " " + file.name;
       data.append("name", fileName);
       data.append("file", file);
       userData.profilePicture = fileName;
       try {
-        await axios.post("/upload", data);
+        await axios.post("/users/upload", data);
       } catch (err) {
         console.log(err);
       }
     }
 
     try {
-      const res = await axios.put(`/users/${user._id}`, userData);
+      await axios.put(`/users/${user._id}`, userData);
     } catch (error) {
       console.log(error);
     }
@@ -246,6 +246,7 @@ export default function Register() {
                       <img
                         onClick={() => {
                           setFile(null);
+                          fileRef.current.value = "";
                         }}
                         src={URL.createObjectURL(file)}
                         alt=""
@@ -255,6 +256,7 @@ export default function Register() {
                     )}
                   </label>
                   <input
+                    ref={fileRef}
                     style={{ display: "none" }}
                     onChange={saveFile}
                     type="file"
