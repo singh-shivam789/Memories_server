@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const router = require("express").Router();
-const multer = require('multer');
+const multer = require("multer");
+const bcrypt = require("bcrypt");
 const Post = require("../models/Post");
 
 const storage = multer.diskStorage({
@@ -19,7 +20,7 @@ router.post("/upload", upload.single("file"), (req, res) => {
       .status(200)
       .json({ status: "ok", message: "file uploaded successfully!" });
   } catch (error) {
-    console.log("error coming in uploading file", err);
+    return res.status(500).json("error coming in uploading file");
   }
 });
 
@@ -29,7 +30,7 @@ router.get("/all", async (req, res) => {
     let users = await User.find({});
     return res.status(200).json(users);
   } catch (error) {
-    console.log(error);
+    return res.status(500).json(error);
   }
 });
 
@@ -39,6 +40,12 @@ router.put("/:id", async (req, res) => {
     const userId = req.params.id;
     const exists = await User.findById(userId);
     if (exists) {
+      if (req.body.password) {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(req.body.password, salt);
+        req.body.password = hashedPassword;
+        console.log(req.body);
+      }
       let user = await User.findByIdAndUpdate(userId, {
         $set: req.body,
       });
@@ -77,7 +84,6 @@ router.get("/", async (req, res) => {
   try {
     const userId = req.query.userId;
     const username = req.query.username;
-    console.log("req made for a user!");
     const user = userId
       ? await User.findById(userId)
       : await User.findOne({ username: username });

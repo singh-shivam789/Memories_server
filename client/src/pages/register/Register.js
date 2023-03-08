@@ -1,4 +1,5 @@
 import axios from "axios";
+import CameraAltIcon from "@material-ui/icons/CameraAlt";
 import { Link, useHistory } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import VisibilityIcon from "@material-ui/icons/Visibility";
@@ -7,7 +8,6 @@ import { useTransition, animated } from "react-spring";
 import { useRef, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import "./register.css";
-import CameraAltIcon from "@material-ui/icons/CameraAlt";
 export default function Register() {
   const fileRef = useRef();
   const username = useRef();
@@ -91,7 +91,7 @@ export default function Register() {
     };
     if (file) {
       const data = new FormData();
-      const fileName = user._id + " " + file.name;
+      const fileName = user._id + "_" + Date.now() + "_" + file.name;
       data.append("name", fileName);
       data.append("file", file);
       userData.profilePicture = fileName;
@@ -101,13 +101,6 @@ export default function Register() {
         console.log(err);
       }
     }
-
-    try {
-      await axios.put(`/users/${user._id}`, userData);
-    } catch (error) {
-      console.log(error);
-    }
-
     toast
       .promise(axios.put(`/users/${user._id}`, userData), {
         pending: "Trying to update your info...",
@@ -141,7 +134,7 @@ export default function Register() {
 
     setTimeout(() => {
       history.push("/login");
-    }, 3000);
+    }, 2000);
   };
 
   return (

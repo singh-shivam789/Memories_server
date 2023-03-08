@@ -23,22 +23,29 @@ const AuthReducer = (state, action) => {
         ...state,
         user: {
           ...state.user,
-          followings: [...state.user.followings, action.payload]
-        }
+          followings: [...state.user.followings, action.payload],
+        },
       };
     case "UNFOLLOW":
       return {
         ...state,
         user: {
-          ...state.user, 
-          followings: state.user.followings.filter((friendId) => friendId !== action.payload)
-        }
+          ...state.user,
+          followings: state.user.followings.filter(
+            (friendId) => friendId !== action.payload
+          ),
+        },
+      };
+    case "EDIT_USER":
+      return {
+        ...state,
+        user: action.payload,
       };
     case "RESET":
       return {
         ...state,
-        isFetching: false
-      }
+        isFetching: false,
+      };
     default:
       return state;
   }
