@@ -1,12 +1,12 @@
 import axios from "axios";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState, memo } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
 import { useHistory, useParams } from "react-router-dom";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { AuthContext } from "../../context/AuthContext";
-export default function Edit() {
-  const { dispatch } = useContext(AuthContext);
+function Edit() {
+  const { dispatch, user: currentUser } = useContext(AuthContext);
   const { userId } = useParams();
 
   const [user, setUser] = useState(null);
@@ -32,6 +32,7 @@ export default function Edit() {
   const saveFile = (e) => {
     setFile(e.target.files[0]);
   };
+
   const userDescSubmitHandler = async function (event) {
     event.preventDefault();
     const userData = {
@@ -55,39 +56,34 @@ export default function Edit() {
       userData.profilePicture = fileName;
       try {
         await axios.post("/users/upload", data);
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     }
 
     toast
       .promise(axios.put(`/users/${user._id}`, userData), {
         pending: "Trying to update your info...",
-        error: "Something went wrong ☹️",
       })
       .then((res) => {
-        toast.success(
-          "Successfully updated your info, sending you to the login page",
-          {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          }
-        );
+        toast.success("Successfully updated your info...", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        dispatch({ type: "EDIT_USER", payload: res.data.user });
+        localStorage.setItem("user", JSON.stringify(res.data.user));
         setTimeout(() => {
-          dispatch({ type: "EDIT_USER", payload: res.data.user });
-        }, 3000);
+          history.push("/profile/" + res.data.user.username);
+        }, 2000)
       })
       .catch((err) => {
-        console.log(err.toString());
-        toast.error(err, {
+        toast.error(err.response.data, {
           position: "top-right",
-          autoClose: 5000,
+          autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -231,3 +227,5 @@ export default function Edit() {
     </div>
   );
 }
+
+export default memo(Edit);

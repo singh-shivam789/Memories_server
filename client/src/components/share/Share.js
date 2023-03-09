@@ -1,9 +1,9 @@
 import "./share.css";
 import { Photo, Label, LocationOn, Mood, Delete } from "@material-ui/icons";
-import { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState, memo } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
-export default function Share() {
+function Share() {
   const { user } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const desc = useRef();
@@ -87,7 +87,7 @@ export default function Share() {
               <Photo className="shareOptionIcon" htmlColor="tomato"></Photo>
               <span className="shareOptionText">Photo</span>
               <input
-                ref = {fileRef}
+                ref={fileRef}
                 style={{ display: "none" }}
                 type="file"
                 id="file"
@@ -116,3 +116,5 @@ export default function Share() {
     </div>
   );
 }
+
+export default memo(Share);

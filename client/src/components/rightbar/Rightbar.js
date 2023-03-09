@@ -1,14 +1,14 @@
 import "./rightbar.css";
 import { Users } from "../../dummyData";
 import OnlineFriend from "../onlineFriend/OnlineFriend";
-import { useContext, useEffect, useState } from "react";
+import { memo, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import Button from "@material-ui/core/Button";
 import { CircularProgress } from "@material-ui/core";
 const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-export default function Rightbar({ user }) {
+function Rightbar({ user }) {
   const Friend = ({ friend }) => {
     return (
       <div className="userFriend">
@@ -39,7 +39,6 @@ export default function Rightbar({ user }) {
         setFriends(friendsList.data);
         setFetchFriends(true);
       } catch (error) {
-        console.log(error);
       }
     };
     getFriends();
@@ -81,7 +80,6 @@ export default function Rightbar({ user }) {
         }
         setFollowed(!followed);
       } catch (error) {
-        console.log(error);
       }
     };
 
@@ -120,7 +118,7 @@ export default function Rightbar({ user }) {
             </div>
             <div className="rightbarInfoItem">
               <span className="rightbarInfoKey">Relationship:</span>
-              <span className="rightbarInfoValue">{user.relationship}</span>
+              <span className="rightbarInfoValue">{user.relationship || "-"}</span>
             </div>
           </div>
         </div>
@@ -157,3 +155,5 @@ export default function Rightbar({ user }) {
     </div>
   );
 }
+
+export default memo(Rightbar);

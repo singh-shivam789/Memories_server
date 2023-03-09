@@ -1,7 +1,9 @@
+import { memo } from "react";
 import "./onlineFriend.css";
+
 const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
-export default function OnlineFriend({ user }) {
+function OnlineFriend({ user }) {
   return (
     <li className="rightbarFriend">
       <div className="rightbarProfileImgContainer">
@@ -16,3 +18,4 @@ export default function OnlineFriend({ user }) {
     </li>
   );
 }
+export default memo(OnlineFriend);

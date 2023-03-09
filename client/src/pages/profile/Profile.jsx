@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { memo, useContext, useEffect, useState } from "react";
 import Feed from "../../components/feed/Feed";
 import Rightbar from "../../components/rightbar/Rightbar";
 import Sidebar from "../../components/sidebar/Sidebar";
@@ -11,11 +11,13 @@ import { ToastContainer, toast } from "react-toastify";
 import "./profile.css";
 import { AuthContext } from "../../context/AuthContext";
 
-export default function Profile() {
-  const {user: currentUser} = useContext(AuthContext);
+function Profile() {
+  const { user: currentUser, dispatch } = useContext(AuthContext);
   const history = useHistory();
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [User, setUser] = useState({});
+
+
   const params = useParams();
   useEffect(() => {
     const fetch = async () => {
@@ -35,7 +37,8 @@ export default function Profile() {
       autoClose: 2000,
     });
     setTimeout(() => {
-      window.location.reload();
+      window.localStorage.clear();
+      dispatch({ type: "LOG_OUT" });
     }, 2000);
   };
 
@@ -48,11 +51,8 @@ export default function Profile() {
     setTimeout(async () => {
       try {
         let res = await axios.delete(`/users/${User._id}`);
-        console.log(res.data);
         window.location.reload();
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }, 3000);
   };
   return (
@@ -123,3 +123,5 @@ export default function Profile() {
     </>
   );
 }
+
+export default memo(Profile);

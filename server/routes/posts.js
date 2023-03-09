@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const multer = require('multer');
+const multer = require("multer");
 const Post = require("../models/Post");
 const User = require("../models/User");
 
@@ -23,7 +23,6 @@ router.post("/upload", upload.single("file"), (req, res) => {
   }
 });
 
-
 // get all posts
 router.get("/all", async (req, res) => {
   try {
@@ -40,7 +39,7 @@ router.post("/", async (req, res) => {
   const newPost = new Post(req.body);
   try {
     const savedPost = await newPost.save();
-    res.status(200).json(savedPost);
+    res.status(200).json(newPost);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -62,9 +61,11 @@ router.put("/:id", async (req, res) => {
 });
 
 //delete a post
-router.delete("/:id", async (req, res) => {
+router.post("/:id", async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
+    const postId = req.params.id;
+    const post = await Post.findById(postId);
+    console.log(post, req.body);
     if (post.userId === req.body.userId) {
       await post.deleteOne();
       res.status(200).json("the post has been deleted");

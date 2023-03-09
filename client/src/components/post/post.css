@@ -13,6 +13,7 @@
 }
 
 .postTopRight {
+  position: relative;
   cursor: pointer;
 }
 
@@ -94,4 +95,13 @@
   width: 60%;
   border-radius: 10px;
   margin: 20px 0;
+}
+
+.postDeleteBtn {
+  cursor: pointer;
+  transition: 0.1s all ease-in-out !important;
+}
+
+.postDeleteBtn:active {
+  transform: scale(1.2);
 }

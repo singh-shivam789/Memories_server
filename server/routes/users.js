@@ -3,6 +3,7 @@ const router = require("express").Router();
 const multer = require("multer");
 const bcrypt = require("bcrypt");
 const Post = require("../models/Post");
+const { findById } = require("../models/User");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -40,17 +41,29 @@ router.put("/:id", async (req, res) => {
     const userId = req.params.id;
     const exists = await User.findById(userId);
     if (exists) {
-      if (req.body.password) {
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(req.body.password, salt);
-        req.body.password = hashedPassword;
-        console.log(req.body);
+      let usernameCheck = await User.findOne({ username: req.body.username });
+      let emailCheck = await User.findOne({ email: req.body.email });
+      if (
+        (!usernameCheck || req.body.username == exists.username) &&
+        (!emailCheck || req.body.email === exists.email)
+      ) {
+        if (req.body.password && req.body.password.trim() !== "") {
+          const salt = await bcrypt.genSalt(10);
+          const hashedPassword = await bcrypt.hash(req.body.password, salt);
+          req.body.password = hashedPassword;
+        } else delete req.body.password;
+        await User.findByIdAndUpdate(userId, {
+          $set: req.body,
+        });
+        let user = await User.findById(userId);
+        return res.status(200).json({ message: "success", user: user });
+      } else {
+        if (usernameCheck) {
+          return res.status(500).json("Username already exists");
+        } else if (emailCheck) {
+          return res.status(500).json("Email already exists");
+        } else return res.status(500).json("Username or Email already exists");
       }
-      let user = await User.findByIdAndUpdate(userId, {
-        $set: req.body,
-      });
-
-      return res.status(200).json({ message: "success", data: user });
     } else throw "Unauthorized";
   } catch (err) {
     return res.status(500).json(err);

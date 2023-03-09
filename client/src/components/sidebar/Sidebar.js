@@ -11,10 +11,10 @@ import {
   School,
 } from "@material-ui/icons";
 import Friend from "../friend/Friend";
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import axios from "axios";
 
-export default function Sidebar() {
+function Sidebar() {
   let [Users, setUsers] = useState([]);
   useEffect(() => {
     const fetchUsers = async () => {
@@ -89,9 +89,7 @@ export default function Sidebar() {
         <div className="sidebarFriendsListContainer">
           <ul className="sidebarFriendsList">
             {Users.map((user) => (
-              <>
-                <Friend key={user._id} user={user} />
-              </>
+              <Friend key={user._id} user={user} />
             ))}
           </ul>
         </div>
@@ -99,3 +97,5 @@ export default function Sidebar() {
     </div>
   );
 }
+
+export default memo(Sidebar);

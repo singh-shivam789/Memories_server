@@ -5,10 +5,10 @@ import { ToastContainer, toast } from "react-toastify";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import { useTransition, animated } from "react-spring";
-import { useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import "./register.css";
-export default function Register() {
+function Register() {
   const fileRef = useRef();
   const username = useRef();
   const email = useRef();
@@ -76,7 +76,6 @@ export default function Register() {
           }
         })
         .catch((err) => {
-          console.log(err);
         });
     }
   };
@@ -98,7 +97,6 @@ export default function Register() {
       try {
         await axios.post("/users/upload", data);
       } catch (err) {
-        console.log(err);
       }
     }
     toast
@@ -119,7 +117,6 @@ export default function Register() {
         });
       })
       .catch((err) => {
-        console.log(err.toString());
         toast.error(err, {
           position: "top-right",
           autoClose: 5000,
@@ -305,3 +302,5 @@ export default function Register() {
     </div>
   );
 }
+
+export default memo(Register);

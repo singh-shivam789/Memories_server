@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, memo } from "react";
 import "./App.css";
 import {
   BrowserRouter as Router,
@@ -42,4 +42,4 @@ function App() {
   );
 }
 
-export default App;
+export default memo(App);

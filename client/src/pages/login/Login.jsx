@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, memo } from "react";
 import "./login.css";
 import { AuthContext } from "../../context/AuthContext";
 import { CircularProgress } from "@material-ui/core";
@@ -9,7 +9,7 @@ import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
-export default function Login() {
+function Login() {
   const { isFetching, dispatch } = useContext(AuthContext);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -43,6 +43,7 @@ export default function Login() {
           }, 2000);
         } else {
           setTimeout(() => {
+            window.localStorage.setItem("user", JSON.stringify(res.data));
             dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
           }, 2000);
           toast.success("Logged in successfully 😊", {
@@ -58,7 +59,6 @@ export default function Login() {
         }
       })
       .catch((err) => {
-        console.log(err);
         toast.error(err.response.data.message, {
           position: "top-right",
           autoClose: 3000,
@@ -69,6 +69,7 @@ export default function Login() {
           progress: undefined,
           theme: "dark",
         });
+        password.current.value = "";
         setTimeout(() => {
           dispatch({ type: "LOGIN_FAILURE", payload: err });
         }, 2000);
@@ -139,3 +140,5 @@ export default function Login() {
     </div>
   );
 }
+
+export default memo(Login);

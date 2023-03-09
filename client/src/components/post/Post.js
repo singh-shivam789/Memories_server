@@ -1,7 +1,7 @@
 import "./post.css";
 import { AuthContext } from "../../context/AuthContext";
-import { MoreVert } from "@material-ui/icons";
-import { useContext, useEffect, useState } from "react";
+import { Delete } from "@material-ui/icons";
+import { memo, useContext, useEffect, useState } from "react";
 import Axios from "axios";
 import { format } from "timeago.js";
 import { Link } from "react-router-dom";
@@ -9,7 +9,11 @@ import axios from "axios";
 
 const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
-export default function Post({ post }) {
+function Post({ post }) {
+  const { user } = useContext(AuthContext);
+  const [like, setLike] = useState(post.likes.length);
+  const [isLiked, setIsLiked] = useState(false);
+  let [User, setUser] = useState({});
   useEffect(() => {
     const fetchUser = async () => {
       let user = await Axios.get(`/users?userId=${post.userId}`);
@@ -17,16 +21,10 @@ export default function Post({ post }) {
     };
     fetchUser();
   }, [post]);
-
-  const { user } = useContext(AuthContext);
-  const [like, setLike] = useState(post.likes.length);
-  const [isLiked, setIsLiked] = useState(false);
-  let [User, setUser] = useState({});
   const likeHandler = async () => {
     try {
       await axios.put("/posts/" + post._id + "/like", { userId: user._id });
     } catch (err) {
-      console.log(err);
       window.alert(err);
     }
     setLike(isLiked ? like - 1 : like + 1);
@@ -35,6 +33,11 @@ export default function Post({ post }) {
   useEffect(() => {
     setIsLiked(post.likes.includes(user._id));
   }, [post, user._id]);
+
+  const postHandler = async () => {
+    let res = await axios.post(`/posts/${post._id}`, { userId: user._id });
+    window.location.reload();
+  };
 
   return (
     <div className="post">
@@ -58,9 +61,11 @@ export default function Post({ post }) {
             <span className="postUserName">{User.username}</span>
             <span className="postDate">{format(post.createdAt)}</span>
           </div>
-          <div className="postTopRight">
-            <MoreVert />
-          </div>
+          {User._id === user._id && (
+            <div className="postTopRight">
+              <Delete className="postDeleteBtn" onClick={postHandler} />
+            </div>
+          )}
         </div>
         <div className="postCenter">
           <div className="postText">{post?.desc}</div>
@@ -86,11 +91,11 @@ export default function Post({ post }) {
             />
             <span className="postLikeCounter">{like} like it</span>
           </div>
-          <div className="postBottomRight">
-            {/* <div className="postComments">{post.comment} comments</div> */}
-          </div>
+          <div className="postBottomRight"></div>
         </div>
       </div>
     </div>
   );
 }
+
+export default memo(Post);
