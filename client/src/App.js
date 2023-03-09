@@ -11,8 +11,10 @@ import Login from "./pages/login/Login";
 import Profile from "./pages/profile/Profile";
 import Register from "./pages/register/Register";
 import ErrorPage from "./pages/error/ErrorPage";
-import { AuthContext } from "./context/AuthContext";
 import Edit from "./pages/edit/Edit";
+import Messenger from "./pages/messenger/Messenger";
+import { AuthContext } from "./context/AuthContext";
+
 function App() {
   const { user, error } = useContext(AuthContext);
   return (
@@ -30,6 +32,9 @@ function App() {
         </Route>
         <Route path="/edit/:userId">
           {!user ? <Redirect to={"/login"} /> : <Edit />}
+        </Route>
+        <Route path={"/messenger"}>
+          {!user ? <Redirect to={"/login"} /> : <Messenger />}
         </Route>
         <Route path="/error">
           {!user && error ? <ErrorPage /> : <Redirect to={"/login"} />}
