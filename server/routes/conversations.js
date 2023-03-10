@@ -15,4 +15,15 @@ router.post("/", async (req, res) => {
   }
 });
 
+// get a conversation
+router.get("/:userId", async (req, res) => {
+  try {
+    const conversation = await Conversation.find({
+      members: { $in: [req.params.userId] },
+    });
+    return res.status(200).json(conversation);
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+});
 module.exports = router;
