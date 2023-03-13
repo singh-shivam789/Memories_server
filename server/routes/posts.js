@@ -65,7 +65,6 @@ router.post("/:id", async (req, res) => {
   try {
     const postId = req.params.id;
     const post = await Post.findById(postId);
-    console.log(post, req.body);
     if (post.userId === req.body.userId) {
       await post.deleteOne();
       res.status(200).json("the post has been deleted");
@@ -106,7 +105,6 @@ router.get("/:id", async (req, res) => {
 //get timeline posts
 router.get("/timeline/:id", async (req, res) => {
   try {
-    console.log("req made for post timeline");
     const currentUser = await User.findById(req.params.id);
     const userPosts = await Post.find({ userId: currentUser._id });
     const friendPosts = await Promise.all(
@@ -123,7 +121,6 @@ router.get("/timeline/:id", async (req, res) => {
 //get user's posts
 router.get("/profile/:username", async (req, res) => {
   try {
-    console.log("req made for user's posts");
     const currentUser = await User.findOne({ username: req.params.username });
     const userPosts = await Post.find({ userId: currentUser._id });
     return res.status(200).json(userPosts);

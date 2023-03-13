@@ -1,5 +1,5 @@
 import "./rightbar.css";
-import { Users } from "../../dummyData";
+// import { Users } from "../../dummyData";
 import OnlineFriend from "../onlineFriend/OnlineFriend";
 import { memo, useContext, useEffect, useState } from "react";
 import axios from "axios";
@@ -55,11 +55,11 @@ function Rightbar({ user }) {
         </div>
         <img src={PF + "/ad.jpg"} alt="" className="rightbarAd" />
         <h4 className="rightbarTitle">Online Friends</h4>
-        <ul className="rightbarFriendsList">
+        {/* <ul className="rightbarFriendsList">
           {Users.map((user) => (
             <OnlineFriend key={user.id} user={user}></OnlineFriend>
           ))}
-        </ul>
+        </ul> */}
       </>
     );
   };
