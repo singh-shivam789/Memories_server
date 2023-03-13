@@ -1,6 +1,6 @@
 const express = require("express");
 const Message = require("../models/Message");
-const router = express.Router;
+const router = express.Router();
 
 // add
 router.post("/", async (req, res) => {
