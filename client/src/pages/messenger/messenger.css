@@ -22,6 +22,11 @@
   width: 80%;
   height: 90px;
   padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: medium;
+  resize: none;
 }
 
 .chatSubmitBtn {
@@ -35,6 +40,7 @@
 }
 
 .chatBoxWrapper {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -62,4 +68,11 @@
   padding: 10px 0;
   border: none;
   border-bottom: 1px solid grey;
+}
+
+.noConversationText{
+  position: absolute;
+  font-size: 50px;
+  color: lightgray;
+  top: 10%;
 }

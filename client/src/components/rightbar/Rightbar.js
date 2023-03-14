@@ -15,10 +15,10 @@ function Rightbar({ user }) {
         <img
           className="userFriendImg"
           src={
-            friend.profilePicture
-              ? PF + friend.profilePicture
-              : PF + "/person/0.jpeg"
-          }
+              friend.profilePicture
+                ? PF + "person/" + friend.profilePicture
+                : PF + "/person/0.jpeg"
+            }
           alt=""
         />
         <span className="userFriendName">{friend.username}</span>
