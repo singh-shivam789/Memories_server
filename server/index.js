@@ -33,6 +33,10 @@ app.use(express.json());
 app.use(helmet());
 app.use(morgan("common"));
 
+app.get("/", (req, res) => {
+  return res.status(200).json({"message" : "This is Memories backend server"});
+});
+
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
