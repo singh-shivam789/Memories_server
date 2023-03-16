@@ -16,7 +16,7 @@ function Rightbar({ user }) {
           className="userFriendImg"
           src={
             friend.profilePicture
-              ? PF + friend.profilePicture
+              ? PF + "person/" + friend.profilePicture
               : PF + "/person/0.jpeg"
           }
           alt=""
