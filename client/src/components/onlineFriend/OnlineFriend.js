@@ -8,7 +8,7 @@ function OnlineFriend({ user }) {
     <li className="rightbarFriend">
       <div className="rightbarProfileImgContainer">
         <img
-          src={PF + "/person/0.jpeg"}
+          src={PF + user.profilePicture}
           alt=""
           className="rightbarProfileImg"
         />
