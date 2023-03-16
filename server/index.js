@@ -11,6 +11,7 @@ const conversationRoute = require("./routes/conversations");
 const messegesRoute = require("./routes/messages");
 const path = require("path");
 dotenv.config();
+const PORT = process.env.PORT || 5000;
 let username = encodeURIComponent("shivamsingh_99");
 let password = encodeURIComponent("singh@123");
 mongoose
@@ -38,6 +39,6 @@ app.use("/api/posts", postRoute);
 app.use("/api/conversations", conversationRoute);
 app.use("/api/messages", messegesRoute);
 
-app.listen(5000, () => {
+app.listen(PORT, () => {
   console.log("Backend server is running!");
 });
