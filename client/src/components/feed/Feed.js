@@ -23,12 +23,12 @@ function Feed({ username }) {
   }, [username, user]);
   return (
     <div className="feed">
-      <div className="feedWrapper">
+      {Posts ? <div className="feedWrapper">
         {(!username || user.username === username) && <Share />}
         {Posts.map((post) => {
           return <Post key={post._id} post={post} />;
         })}
-      </div>
+      </div> : <h2>No posts to show</h2>}
     </div>
   );
 }

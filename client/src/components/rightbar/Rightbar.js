@@ -32,14 +32,11 @@ function Rightbar({ user }) {
   const [followed, setFollowed] = useState(false);
 
   useEffect(() => {
-    setFollowed(currentUser.followings.includes(user?._id));
+    if(currentUser) setFollowed(currentUser.followings.includes(user?._id));
     const getFriends = async () => {
-      try {
-        const friendsList = await axios.get("/users/friends/" + user._id);
-        setFriends(friendsList.data);
-        setFetchFriends(true);
-      } catch (error) {
-      }
+      const friendsList = await axios.get("/users/friends/" + user._id);
+      setFriends(friendsList.data);
+      setFetchFriends(true);
     };
     getFriends();
   }, [user, currentUser]);
@@ -79,6 +76,7 @@ function Rightbar({ user }) {
           dispatch({ type: "UNFOLLOW", payload: user._id });
         }
         setFollowed(!followed);
+      
       } catch (error) {
       }
     };
@@ -103,7 +101,7 @@ function Rightbar({ user }) {
         )}
 
         <div className="rightbarTop">
-          <h4 className="rightbarTitle">About you</h4>
+          <h4 className="rightbarTitle">About {user.username}</h4>
         </div>
 
         <div className="rightbarInfoFormContainer">
@@ -122,7 +120,7 @@ function Rightbar({ user }) {
             </div>
           </div>
         </div>
-        <h4 className="rightbarTitle">Your Friends</h4>
+        <h4 className="rightbarTitle">{user.username}'s Friends</h4>
         <div className="userFriends">
           {!fetchFriends && <CircularProgress size="15px" />}
           {fetchFriends &&
@@ -130,6 +128,7 @@ function Rightbar({ user }) {
             friends.map((friend) => {
               return (
                 <Link
+                key={friend._id}
                   style={{ textDecoration: "none" }}
                   to={`/profile/${friend.username}`}
                 >
