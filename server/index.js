@@ -26,13 +26,20 @@ mongoose
     console.log(err);
   });
 
-app.use("/files", express.static(path.join(__dirname, "public/files")));
+    
+  app.use("/files", express.static(path.join(__dirname, "public/files")));
 
 //middleware
 app.use(cors());
 app.use(express.json());
 app.use(helmet());
 app.use(morgan("common"));
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+  });
+  
 
 app.get("/", (req, res) => {
   return res.status(200).json({"message" : "This is Memories backend server"});
