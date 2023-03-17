@@ -2,6 +2,27 @@ const router = require("express").Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 
+// forgot password
+router.post("/forgotPassword", async(req, res) => {
+  try {
+    let user = await User.findOne({email: req.body.email});
+    if(!user) throw ("not found"); 
+    else{
+      let password = req.body.password;
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+      req.body.password = hashedPassword;
+      await User.findByIdAndUpdate(user._id, {
+        $set : req.body,
+      });
+      return res.status(200).json({message: "success"});
+    }
+  } catch (error) {
+    if(error === "not found") return res.status(200).json({"message": error});
+    else return res.status(200).json(error);
+  }
+});
+
 //REGISTER
 router.post("/register", async (req, res) => {
   try {

@@ -17,7 +17,7 @@ let password = encodeURIComponent("singh@123");
 mongoose
   .connect(
     `mongodb+srv://${username}:${password}@devcluster1.2bfcye7.mongodb.net/socialDB?retryWrites=true&w=majority`,
-    { useNewUrlParser: true, useUnifiedTopology: true }
+    { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true }
   )
   .then(() => {
     console.log("Connected to MongoDB");
